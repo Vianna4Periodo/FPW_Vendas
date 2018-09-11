@@ -1,0 +1,3 @@
+Pacotes Nugget do Projeto Vendas:
+
+- MySql.Data - 6.9.12

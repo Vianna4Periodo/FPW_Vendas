@@ -1,0 +1,16 @@
+﻿<Window x:Class="Vendas.View.FProdutos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vendas.View"
+        mc:Ignorable="d"
+        Title="FProdutos" Height="450" Width="587">
+    <Grid Margin="0,0,-8,0">
+        <Button Content="Fechar" HorizontalAlignment="Left" Margin="488,389,0,0" VerticalAlignment="Top" Width="74" Click="Button_Click"/>
+        <DataGrid x:Name="tblProdutos" HorizontalAlignment="Left" Height="339" Margin="10,10,0,0" VerticalAlignment="Top" Width="478" SelectionMode="Single"/>
+        <Button x:Name="botaoAdd" Content="+" HorizontalAlignment="Left" Margin="512,17,0,0" VerticalAlignment="Top" Width="50" Height="29" Click="botaoAdd_Click"/>
+        <Button x:Name="botaoExcluir" Content="-" HorizontalAlignment="Left" Margin="512,59,0,0" VerticalAlignment="Top" Width="50" Height="29" Click="botaoExcluir_Click"/>
+
+    </Grid>
+</Window>
