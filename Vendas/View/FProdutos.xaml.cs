@@ -31,7 +31,7 @@ namespace Vendas.View
         {
             // trazendo os dados do banco
             tblProdutos.ItemsSource = DbFactoy.Instance.ProdutoDAO.BuscarTodos();
-         
+
             this.ShowDialog();
         }
 
@@ -45,17 +45,17 @@ namespace Vendas.View
             var frmAddProduto = new FAddEdtProduto();
             var produto = frmAddProduto.Execute();
 
-            if(produto != null)
+            if (produto != null)
             {
-                Produto.Produtos.Add(produto);
+                DbFactoy.Instance.ProdutoDAO.IncluirProduto(produto);
                 tblProdutos.ItemsSource = null;
-                tblProdutos.ItemsSource = Produto.Produtos;
+                tblProdutos.ItemsSource = DbFactoy.Instance.ProdutoDAO.BuscarTodos();
             }
         }
 
         private void botaoExcluir_Click(object sender, RoutedEventArgs e)
         {
-            if(tblProdutos.SelectedItems.Count > 0)
+            if (tblProdutos.SelectedItems.Count > 0)
             {
                 var o = tblProdutos.SelectedItems[0];
 
@@ -65,15 +65,45 @@ namespace Vendas.View
                     "Deletar", MessageBoxButton.YesNo, MessageBoxImage.Question)
                      == MessageBoxResult.Yes)
 
-                    Produto.Produtos.Remove(produto);
+                    DbFactoy.Instance.ProdutoDAO.ExcluirProduto(produto);
+
 
                 tblProdutos.ItemsSource = null;
-                tblProdutos.ItemsSource = Produto.Produtos;
+                tblProdutos.ItemsSource = DbFactoy.Instance.ProdutoDAO.BuscarTodos();
 
             }
             else
             {
                 MessageBox.Show("Selecione um Produto");
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (tblProdutos.SelectedItems.Count > 0)
+            {
+                var o = tblProdutos.SelectedItems[0];
+
+                var produto = (Produto)o;
+
+                if (MessageBox.Show("Deseja alterar " + produto.Descricao + "?",
+                    "Alterar", MessageBoxButton.YesNo, MessageBoxImage.Question)
+                     == MessageBoxResult.Yes)
+                {
+                    var frmAddProduto = new FAddEdtProduto();
+                    var prodTemp = frmAddProduto.Execute(produto);
+
+                    if (prodTemp != null)
+                    {
+
+                        DbFactoy.Instance.ProdutoDAO.AlterarProduto(produto);
+
+
+                        tblProdutos.ItemsSource = null;
+                        tblProdutos.ItemsSource = DbFactoy.Instance.ProdutoDAO.BuscarTodos();
+                    }
+                }
+
             }
         }
     }

@@ -34,14 +34,36 @@ namespace Vendas.View
             return this.tempProduto;
         }
 
+        public Produto Execute(Produto produto)
+        {
+            this.tempProduto = produto;
+
+            txtDescricao.Text = produto.Descricao;
+            txtPreco.Text = produto.Preco.ToString();
+
+            this.ShowDialog();
+            return this.tempProduto;
+        }
+
+
         private void btnGravar_Click(object sender, RoutedEventArgs e)
         {
-            this.tempProduto = new Produto()
+            if(this.tempProduto == null)
             {
-                Descricao = txtDescricao.Text,
-                Preco = Convert.ToDecimal(txtPreco.Text)
-            };
+                this.tempProduto = new Produto()
+                {
+                    Descricao = txtDescricao.Text,
+                    Preco = Convert.ToDecimal(txtPreco.Text)
+                };
+            }
+            else
+            {
+                this.tempProduto.Descricao = txtDescricao.Text;
+                this.tempProduto.Preco = Convert.ToDecimal(txtPreco.Text);
+            }
 
+                    
+        
 
             this.Close();
         }

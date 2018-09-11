@@ -35,7 +35,7 @@ namespace Vendas.DbConfig.DAO
                 //Coloca dentro de item os dados da tabela do select
                 // O [0] - estou fazendo select de uma tabela, e percorre o list e 
                 // converte para lista.
-                foreach(var item in dataSet.Tables[0].AsEnumerable().ToList())
+                foreach (var item in dataSet.Tables[0].AsEnumerable().ToList())
                 {
                     var produto = new Produto()
                     {
@@ -50,9 +50,96 @@ namespace Vendas.DbConfig.DAO
                 return produtos;
 
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception("Não foi possivél buscar todos os produtos!", ex);
+            }
+            finally
+            {
+                if (conexaoMySql.State == ConnectionState.Open)
+                    conexaoMySql.Close();
+            }
+        }
+
+        public void ExcluirProduto(Produto produto)
+        {
+            try
+            {
+                if(conexaoMySql.State == ConnectionState.Closed)
+                    conexaoMySql.Open();
+
+                var sql = "DELETE FROM produto WHERE codigo = @id";
+                var cmd = new MySqlCommand(sql, conexaoMySql);
+                cmd.Parameters.AddWithValue("@id", produto.Codigo);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Não foi possível excluir o produto.", ex);
+            }
+            finally
+            {
+                if (conexaoMySql.State == ConnectionState.Open)
+                    conexaoMySql.Close();
+            }
+        }
+
+        public void IncluirProduto(Produto produto)
+        {
+            try
+            {
+                if (conexaoMySql.State == ConnectionState.Closed)
+                    conexaoMySql.Open();
+
+                var sql = "INSERT INTO produto" +
+                    " (descricao," +
+                    " preco)" +
+                    " VALUES " +
+                    " (@descricao, " +
+                    " @preco); ";
+
+                var cmd = new MySqlCommand(sql, conexaoMySql);
+                cmd.Parameters.AddWithValue("@descricao", produto.Descricao);
+                cmd.Parameters.AddWithValue("@preco", produto.Preco);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Não foi possível excluir o produto.", ex);
+            }
+            finally
+            {
+                if (conexaoMySql.State == ConnectionState.Open)
+                    conexaoMySql.Close();
+            }
+        }
+
+        public void AlterarProduto(Produto produto)
+        {
+            try
+            {
+                if (conexaoMySql.State == ConnectionState.Closed)
+                    conexaoMySql.Open();
+
+                var sql = "UPDATE produto " +
+                    " SET descricao = @descricao, " +
+                    " preco = @preco " +
+                    " WHERE " +
+                    " codigo = @id; ";
+
+                var cmd = new MySqlCommand(sql, conexaoMySql);
+                cmd.Parameters.AddWithValue("@descricao", produto.Descricao);
+                cmd.Parameters.AddWithValue("@preco", produto.Preco);
+                cmd.Parameters.AddWithValue("@id", produto.Codigo);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Não foi possível excluir o produto.", ex);
             }
             finally
             {
